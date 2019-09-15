@@ -1,0 +1,1 @@
+{ "name": "com.gameframe.infotables.Editor.Tests", "references": [ "com.gameframe.infotables" ], "optionalUnityReferences": ["TestAssemblies"], "includePlatforms": [ "Editor" ], "excludePlatforms": [] }
