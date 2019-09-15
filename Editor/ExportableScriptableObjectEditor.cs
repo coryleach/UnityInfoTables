@@ -3,7 +3,10 @@ using UnityEditor;
 
 namespace Gameframe.InfoTables.Editor
 {
-    [CustomEditor(typeof(EnumExportableScriptableObject),true)]
+    /// <summary>
+    /// Adds an export button to the inspector of all EnumExportableScriptable object types
+    /// </summary>
+    [CustomEditor(typeof(EnumExportableTable),true)]
     public class ExportableScriptableObjectEditor : UnityEditor.Editor
     {
         public override void OnInspectorGUI()
@@ -11,7 +14,7 @@ namespace Gameframe.InfoTables.Editor
             base.OnInspectorGUI();
             if ( GUILayout.Button("Export") )
             {
-                ((EnumExportableScriptableObject)target).Export();
+                ((EnumExportableTable)target).Export();
             }
         }
     }
