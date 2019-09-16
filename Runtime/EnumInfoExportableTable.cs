@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Gameframe.InfoTables
 {
@@ -113,7 +115,6 @@ namespace Gameframe.InfoTables
     #endregion
     
 #if UNITY_EDITOR
-
     protected override void BuildAndWriteExportables(string enumName, IEnumExportable[] exportables, string path)
     {
       if (includeExtensionMethods)
@@ -126,7 +127,7 @@ namespace Gameframe.InfoTables
       }
     }
 
-    public override void GatherExportables()
+    public override void GatherEntries()
     {
       //Remove Null Entries
       entries.RemoveAll((x) => x == null);

@@ -1,14 +1,17 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 using System.Linq;
 using Directory = System.IO.Directory;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Gameframe.InfoTables
 {
     /// <summary>
     /// Serves as the base class for a scriptable object that can export an enum type
     /// </summary>
-    public abstract class EnumExportableTable : ScriptableObject
+    public abstract class EnumExportableTable : BaseInfoTable
     {
         protected virtual string ExportPath => "Assets/Exported/InfoTables/";
         
@@ -35,7 +38,7 @@ namespace Gameframe.InfoTables
 #if UNITY_EDITOR
         public void Export()
         {
-            if (!ValidateExportables())
+            if (!ValidateEntries())
             {
                 Debug.LogError("Export Failed");
                 return;
@@ -72,7 +75,7 @@ namespace Gameframe.InfoTables
             EnumExporter.BuildEnum(enumName,exportables,path);
         }
         
-        public bool ValidateExportables()
+        public override bool ValidateEntries()
         {
             var exportables = GetExportables();
 
@@ -129,11 +132,6 @@ namespace Gameframe.InfoTables
             }
             
             return true;
-        }
-        
-        public virtual void GatherExportables()
-        {
-            
         }
 #endif
     }
