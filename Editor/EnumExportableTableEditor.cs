@@ -12,15 +12,14 @@ namespace Gameframe.InfoTables.Editor
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
+
+            EditorGUILayout.BeginHorizontal();
             
-            if ( GUILayout.Button("Export") )
-            {
-                ((EnumExportableTable)target).Export();
-            }
             if (GUILayout.Button("Gather"))
             {
                 ((EnumExportableTable)target).GatherExportables();
             }
+            
             if (GUILayout.Button("Validate"))
             {
                 if (((EnumExportableTable) target).ValidateExportables())
@@ -28,6 +27,15 @@ namespace Gameframe.InfoTables.Editor
                     Debug.Log("OK!");
                 }
             }
+            
+            if ( GUILayout.Button("Export") )
+            {
+                ((EnumExportableTable)target).Export();
+                return;
+            }
+            
+            EditorGUILayout.EndHorizontal();
+            
         }
     }
 }

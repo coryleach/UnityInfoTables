@@ -43,6 +43,45 @@ namespace Gameframe.InfoTables
             File.WriteAllText(filename, fileContent);
             AssetDatabase.ImportAsset(filename);
         }
+        
+        /// <summary>
+        /// Writes out a .cs file containing an enum with the given name and entries at the given path
+        /// filename will be $"{enumName}.cs" and also includes extension methods that adds a Get method
+        /// which takes the enum as a parameter
+        /// </summary>
+        /// <param name="enumName">Name of the enum type</param>
+        /// <param name="enumEntries">Array of IEnumExportable that become the enum values</param>
+        /// <param name="path">Direcotry where the source code file will be written</param>
+        public static void BuildEnumWithExtensionMethods(string tableClassName, string infoClassName, string enumName, IEnumExportable[] enumEntries, string path) 
+        {
+            var filename = $"{path}{enumName}.cs";
+            var enumContent = BuildEnumExportString(enumName, enumEntries);
+            var extensionMethods = BuildTableEnumExtensionString(tableClassName, infoClassName, enumName);
+            var fileContent = $"{enumContent}{extensionMethods}";
+            
+            File.WriteAllText(filename, fileContent);
+            AssetDatabase.ImportAsset(filename);
+        }
+
+        /// <summary>
+        /// Builds an extension class for the table that allows use of the generated enum as an argument to the Get method
+        /// </summary>
+        /// <param name="tableClassName">Name of hte table class</param>
+        /// <param name="infoClassName">Name of the info class</param>
+        /// <param name="enumName">Name of the enum</param>
+        /// <returns>Source code for a static class that includes extension methods</returns>
+        private static string BuildTableEnumExtensionString(string tableClassName, string infoClassName, string enumName)
+        {
+            var output = new StringBuilder();
+            output.AppendLine("");
+            output.AppendLine($"public static class {tableClassName}Extensions \n{{");
+            output.AppendLine($"  public static {infoClassName} Get(this {tableClassName} table, {enumName} enumValue)");
+            output.AppendLine("  {");
+            output.AppendLine("    return table.Get((int) enumValue);");
+            output.AppendLine("  }");
+            output.AppendLine("}");
+            return output.ToString();
+        }
 
         /// <summary>
         /// Builds a string representing the soruce code for an enum type

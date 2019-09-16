@@ -14,6 +14,9 @@ namespace Gameframe.InfoTables
   /// <typeparam name="T">Type that inherits from EnumInfoScriptableObject</typeparam>
   public abstract class EnumInfoExportableTable<T> : EnumExportableTable where T : EnumInfoScriptableObject
   {
+    [SerializeField]
+    private bool includeTableExtensionMethods = true;
+    
     [FormerlySerializedAs("properties")]
     [SerializeField]
     protected List<T> entries = new List<T>();
@@ -110,6 +113,19 @@ namespace Gameframe.InfoTables
     #endregion
     
 #if UNITY_EDITOR
+
+    protected override void BuildAndWriteExportables(string enumName, IEnumExportable[] exportables, string path)
+    {
+      if (includeTableExtensionMethods)
+      {
+        EnumExporter.BuildEnumWithExtensionMethods(GetType().ToString(),typeof(T).ToString(),enumName,exportables,path);
+      }
+      else
+      {
+        base.BuildAndWriteExportables(enumName,exportables,path);
+      }
+    }
+
     public override void GatherExportables()
     {
       //Remove Null Entries

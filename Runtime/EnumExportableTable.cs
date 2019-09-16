@@ -62,7 +62,12 @@ namespace Gameframe.InfoTables
             }
             
             //Building the dictionary should also validate we have no dupes
-            EnumExporter.BuildEnum(ExportedEnumTypeName, entries, ExportPath);
+            BuildAndWriteExportables(ExportedEnumTypeName, entries, ExportPath);
+        }
+
+        protected virtual void BuildAndWriteExportables(string enumName, IEnumExportable[] exportables, string path)
+        {
+            EnumExporter.BuildEnum(enumName,exportables,path);
         }
         
         public bool ValidateExportables()
