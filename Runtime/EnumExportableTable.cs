@@ -13,7 +13,7 @@ namespace Gameframe.InfoTables
     /// </summary>
     public abstract class EnumExportableTable : ScriptableObject
     {
-        protected virtual string ExportPath => "Assets/Exported/";
+        protected virtual string ExportPath => "Assets/Exported/InfoTables/";
         
         protected abstract string ExportedEnumTypeName { get; }
         protected abstract IEnumExportable[] GetExportables();

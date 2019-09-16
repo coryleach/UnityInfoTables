@@ -15,7 +15,7 @@ namespace Gameframe.InfoTables
   public abstract class EnumInfoExportableTable<T> : EnumExportableTable where T : EnumInfoScriptableObject
   {
     [SerializeField]
-    private bool includeTableExtensionMethods = true;
+    private bool includeExtensionMethods = true;
     
     [FormerlySerializedAs("properties")]
     [SerializeField]
@@ -116,7 +116,7 @@ namespace Gameframe.InfoTables
 
     protected override void BuildAndWriteExportables(string enumName, IEnumExportable[] exportables, string path)
     {
-      if (includeTableExtensionMethods)
+      if (includeExtensionMethods)
       {
         EnumExporter.BuildEnumWithExtensionMethods(GetType().ToString(),typeof(T).ToString(),enumName,exportables,path);
       }

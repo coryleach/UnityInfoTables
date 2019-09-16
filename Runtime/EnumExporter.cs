@@ -56,8 +56,9 @@ namespace Gameframe.InfoTables
         {
             var filename = $"{path}{enumName}.cs";
             var enumContent = BuildEnumExportString(enumName, enumEntries);
-            var extensionMethods = BuildTableEnumExtensionString(tableClassName, infoClassName, enumName);
-            var fileContent = $"{enumContent}{extensionMethods}";
+            var tableExtensions = BuildTableEnumExtensionString(tableClassName, infoClassName, enumName);
+            var infoExtensions = BuildInfoEnumExtensionString(infoClassName, enumName);
+            var fileContent = $"{enumContent}{tableExtensions}{infoExtensions}";
             
             File.WriteAllText(filename, fileContent);
             AssetDatabase.ImportAsset(filename);
@@ -78,6 +79,25 @@ namespace Gameframe.InfoTables
             output.AppendLine($"  public static {infoClassName} Get(this {tableClassName} table, {enumName} enumValue)");
             output.AppendLine("  {");
             output.AppendLine("    return table.Get((int) enumValue);");
+            output.AppendLine("  }");
+            output.AppendLine("}");
+            return output.ToString();
+        }
+        
+        /// <summary>
+        /// Builds an extension class for the info entries that gets the id types as the enum
+        /// </summary>
+        /// <param name="infoClassName">Name of the info class</param>
+        /// <param name="enumName">Name of the enum</param>
+        /// <returns>Source code for a static class that includes extension methods</returns>
+        private static string BuildInfoEnumExtensionString(string infoClassName, string enumName)
+        {
+            var output = new StringBuilder();
+            output.AppendLine("");
+            output.AppendLine($"public static class {infoClassName}Extensions \n{{");
+            output.AppendLine($"  public static {enumName} GetEnumValue(this {infoClassName} info)");
+            output.AppendLine("  {");
+            output.AppendLine($"    return ({enumName})info.Id.Value;");
             output.AppendLine("  }");
             output.AppendLine("}");
             return output.ToString();
