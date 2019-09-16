@@ -1,8 +1,5 @@
 <h1 align="center">Welcome to com.gameframe.infotables 👋</h1>
 <p>
-  <a href="https://www.npmjs.com/package/com.gameframe.infotables">
-    <img alt="Version" src="https://img.shields.io/npm/v/com.gameframe.infotables.svg">
-  </a>
   <a href="https://twitter.com/coryleach">
     <img alt="Twitter: coryleach" src="https://img.shields.io/twitter/follow/coryleach.svg?style=social" target="_blank" />
   </a>
