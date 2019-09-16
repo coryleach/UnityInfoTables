@@ -88,7 +88,7 @@ namespace Gameframe.InfoTables
                 Debug.LogError("The same entry found twice!");
                 return false;
             }
-            
+
             //Check for duplicate values
             foreach (var exportable in exportables)
             {
@@ -97,6 +97,22 @@ namespace Gameframe.InfoTables
                 if (duplicates.Count() > 1)
                 {
                     Debug.LogError("Duplicate Ids Found");
+                    foreach (var dupe in duplicates)
+                    {
+                        Debug.LogError($"{dupe} ({dupe.GetEnumExportableName()}:{dupe.GetEnumExportableValue()})");
+                    }
+                    return false;
+                }
+            }
+            
+            //Check for duplicate names
+            foreach (var exportable in exportables)
+            {
+                var valueName = exportable.GetEnumExportableName();
+                var duplicates = exportables.Where((x) => x.GetEnumExportableName() == valueName);
+                if (duplicates.Count() > 1)
+                {
+                    Debug.LogError("Duplicate Enum Value Names Found");
                     foreach (var dupe in duplicates)
                     {
                         Debug.LogError($"{dupe} ({dupe.GetEnumExportableName()}:{dupe.GetEnumExportableValue()})");
