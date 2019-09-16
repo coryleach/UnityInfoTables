@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Gameframe.InfoTables
 {
@@ -11,21 +14,22 @@ namespace Gameframe.InfoTables
   /// <typeparam name="T">Type that inherits from EnumInfoScriptableObject</typeparam>
   public abstract class EnumInfoExportableTable<T> : EnumExportableTable where T : EnumInfoScriptableObject
   {
+    [FormerlySerializedAs("properties")]
     [SerializeField]
-    protected List<T> properties = new List<T>();
+    protected List<T> entries = new List<T>();
 
     private Dictionary<int, T> _dictionary = null;
 
     /// <summary>
     /// Number of entries in the table
     /// </summary>
-    public int Count => properties.Count;
+    public int Count => entries.Count;
 
     /// <summary>
     /// Get an entry in the table by index
     /// </summary>
     /// <param name="index"></param>
-    public T this[int index] => properties[index];
+    public T this[int index] => entries[index];
 
     private void OnEnable()
     {
@@ -40,12 +44,12 @@ namespace Gameframe.InfoTables
       }
       _dictionary = new Dictionary<int, T>();
 
-      if (properties == null)
+      if (entries == null)
       {
         return;
       }
     
-      foreach (var property in properties)
+      foreach (var property in entries)
       {
         _dictionary.Add(property.Id.Value, property);
       }
@@ -99,11 +103,27 @@ namespace Gameframe.InfoTables
     protected override IEnumExportable[] GetExportables()
     {
       //Building the dictionary should also validate we have no dupes
-      BuildDictionary(true);
-      var list = properties.ConvertAll((property) => property as IEnumExportable);
+      //BuildDictionary(true);
+      var list = entries.ConvertAll((property) => property as IEnumExportable);
       return list.ToArray();
     }
     #endregion
+    
+#if UNITY_EDITOR
+    public override void GatherExportables()
+    {
+      var guids = AssetDatabase.FindAssets($"t:{typeof(T)}");
+      foreach (var guid in guids)
+      {
+        string assetPath = AssetDatabase.GUIDToAssetPath( guid );
+        T asset = AssetDatabase.LoadAssetAtPath<T>( assetPath );
+        if( asset != null && !entries.Contains(asset) )
+        {
+          entries.Add(asset);
+        }
+      }
+    }
+#endif
     
   }
 }

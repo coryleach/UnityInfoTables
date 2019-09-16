@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Gameframe.InfoTables
 {
-  public abstract class EnumExportableInfoTable<T> : EnumExportableScriptableObject where T : GenericInfoScriptableObject
+  public abstract class EnumExportableInfoTable<T> : EnumExportableScriptableObject where T : EnumInfoScriptableObject
   {
     [SerializeField]
     protected List<T> properties = new List<T>();
