@@ -112,6 +112,10 @@ namespace Gameframe.InfoTables
 #if UNITY_EDITOR
     public override void GatherExportables()
     {
+      //Remove Null Entries
+      entries.RemoveAll((x) => x == null);
+      
+      //Find all assets of type T and add them to our list
       var guids = AssetDatabase.FindAssets($"t:{typeof(T)}");
       foreach (var guid in guids)
       {

@@ -92,7 +92,7 @@ namespace Gameframe.InfoTables
                     Debug.LogError("Duplicate Ids Found");
                     foreach (var dupe in duplicates)
                     {
-                        Debug.LogError($"{dupe.GetEnumExportableName()}:{dupe.GetEnumExportableValue()}");
+                        Debug.LogError($"{dupe} ({dupe.GetEnumExportableName()}:{dupe.GetEnumExportableValue()})");
                     }
                     return false;
                 }
