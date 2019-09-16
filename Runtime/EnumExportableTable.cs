@@ -1,9 +1,6 @@
 ﻿using UnityEditor;
 using UnityEngine;
-using System.IO;
 using System.Linq;
-using UnityEditorInternal.Profiling.Memory.Experimental.FileFormat;
-using UnityEngine.Windows;
 using Directory = System.IO.Directory;
 
 namespace Gameframe.InfoTables
@@ -44,16 +41,21 @@ namespace Gameframe.InfoTables
                 return;
             }
             
+            if (!EditorUtility.DisplayDialog("Export Info Table", "Exporting will write source code. It's recommended that you commit all current changes to version control before continuing. Continue?", "Ok", "Cancel"))
+            {
+                return;
+            }
+            
             if (!Directory.Exists(ExportPath))
             {
-                if (!EditorUtility.DisplayDialog("Export", "Export directory does not exist. Create it?", "Ok", "Cancel"))
+                if (!EditorUtility.DisplayDialog("Export Info Table", "Export directory does not exist. Create it?", "Ok", "Cancel"))
                 {
                     return;
                 }
                 //Create export directory
                 Directory.CreateDirectory(ExportPath);
             }
-
+            
             var entries = GetExportables();
 
             if (exportInvalidEntry)
