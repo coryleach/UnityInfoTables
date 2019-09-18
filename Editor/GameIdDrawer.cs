@@ -3,7 +3,7 @@ using UnityEditor;
 
 namespace Gameframe.InfoTables.Editor
 {
-  [CustomPropertyDrawer(typeof(GameId))]
+  [CustomPropertyDrawer(typeof(InfoId))]
   public class IngredientDrawer : PropertyDrawer
   {
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)

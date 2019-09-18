@@ -27,7 +27,7 @@ namespace Gameframe.InfoTables
   }
   
   /// <summary>
-  /// Table of InfoScriptableObjects each with a unique GameId
+  /// Table of InfoScriptableObjects each with a unique InfoId
   /// </summary>
   public class InfoTable : BaseInfoTable
   {
@@ -71,10 +71,10 @@ namespace Gameframe.InfoTables
       }
     }
 
-    /// <inheritdoc cref="Get(Gameframe.InfoTables.GameId)"/>
-    public InfoScriptableObject Get(GameId gameId)
+    /// <inheritdoc cref="Get(InfoId)"/>
+    public InfoScriptableObject Get(InfoId infoId)
     {
-      return Get(gameId.Value);
+      return Get(infoId.Value);
     }
 
     /// <summary>
@@ -109,9 +109,9 @@ namespace Gameframe.InfoTables
     }
 
     /// <inheritdoc cref="TryGet(int,out Gameframe.InfoTables.InfoScriptableObject)"/>
-    public bool TryGet(GameId gameId, out InfoScriptableObject val)
+    public bool TryGet(InfoId infoId, out InfoScriptableObject val)
     {
-      return TryGet(gameId.Value, out val);
+      return TryGet(infoId.Value, out val);
     }
     
   }
@@ -160,10 +160,10 @@ namespace Gameframe.InfoTables
       }
     }
 
-    /// <inheritdoc cref="Get(Gameframe.InfoTables.GameId)"/>
-    public T Get(GameId gameId)
+    /// <inheritdoc cref="Get(InfoId)"/>
+    public T Get(InfoId infoId)
     {
-      return Get(gameId.Value);
+      return Get(infoId.Value);
     }
 
     /// <summary>
@@ -198,9 +198,9 @@ namespace Gameframe.InfoTables
     }
 
     /// <inheritdoc cref="TryGet(int,out T)"/>
-    public bool TryGet(GameId gameId, out T val)
+    public bool TryGet(InfoId infoId, out T val)
     {
-      return TryGet(gameId.Value, out val);
+      return TryGet(infoId.Value, out val);
     }
 
 #if UNITY_EDITOR

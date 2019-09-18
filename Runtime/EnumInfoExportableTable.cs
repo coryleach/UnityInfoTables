@@ -61,7 +61,7 @@ namespace Gameframe.InfoTables
     }
 
     /// <summary>
-    /// Get an entry in the table by GameId value
+    /// Get an entry in the table by InfoId value
     /// </summary>
     /// <param name="id">id of entry to retrieve</param>
     /// <returns>Entry in the table with the given id</returns>
@@ -80,9 +80,9 @@ namespace Gameframe.InfoTables
     }
 
     /// <inheritdoc cref="Get(int)"/>
-    public T Get(GameId gameId)
+    public T Get(InfoId infoId)
     {
-      return Get(gameId.Value);
+      return Get(infoId.Value);
     }
     
     /// <summary>
@@ -98,10 +98,10 @@ namespace Gameframe.InfoTables
     }
     
     /// <inheritdoc cref="TryGet(int,out T)"/>
-    public bool TryGet(GameId gameId, out T val)
+    public bool TryGet(InfoId infoId, out T val)
     {
       BuildDictionary();
-      return _dictionary.TryGetValue(gameId.Value, out val);
+      return _dictionary.TryGetValue(infoId.Value, out val);
     }
 
     #region Enum Export

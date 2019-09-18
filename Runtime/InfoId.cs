@@ -4,14 +4,14 @@ using UnityEngine;
 namespace Gameframe.InfoTables
 {
   /// <summary>
-  /// GameId converts a human readable string to a numerical id
+  /// InfoId converts a human readable string to a numerical id
   /// Generally to be used as a key to associate data with assets and static data
   /// </summary>
   [Serializable]
-  public class GameId : ISerializationCallbackReceiver
+  public class InfoId : ISerializationCallbackReceiver
   {
     
-    private static GameId _invalid = new GameId();
+    private static InfoId _invalid = new InfoId();
     
     [SerializeField] 
     private string key = string.Empty;
@@ -20,22 +20,22 @@ namespace Gameframe.InfoTables
     private int id = 0;
     
     /// <summary>
-    /// The invalid GameId with a Value of 0
+    /// The invalid InfoId with a Value of 0
     /// </summary>
-    public static GameId Invalid => _invalid;
+    public static InfoId Invalid => _invalid;
 
     /// <summary>
-    /// The default constructor will create an invlaid GameId by default 
+    /// The default constructor will create an invlaid InfoId by default 
     /// </summary>
-    private GameId()
+    private InfoId()
     {
     }
 
     /// <summary>
-    /// Construct a new GameId
+    /// Construct a new InfoId
     /// </summary>
     /// <param name="key">String used to generate the hash integer Value</param>
-    public GameId(string key)
+    public InfoId(string key)
     {
       this.key = key;
       id = key.GetHashCode();
@@ -83,11 +83,11 @@ namespace Gameframe.InfoTables
     /// <returns></returns>
     public override bool Equals(object obj)
     {
-      if (!(obj is GameId))
+      if (!(obj is InfoId))
       {
         return false;
       }
-      var other = (GameId) obj;
+      var other = (InfoId) obj;
       return other.Value == Value;
     }
 
@@ -125,12 +125,12 @@ namespace Gameframe.InfoTables
     }
 
     /// <summary>
-    /// Formats GameId data in a debug log friendly way
+    /// Formats InfoId data in a debug log friendly way
     /// </summary>
-    /// <returns>String with the format "GameId({Key}:{Value})</returns>
+    /// <returns>String with the format "InfoId({Key}:{Value})</returns>
     public override string ToString()
     {
-      return $"GameId({Key}:{Value})";
+      return $"InfoId({Key}:{Value})";
     }
     
   }
