@@ -16,7 +16,7 @@ Find the manifest.json file in the Packages folder of your project and edit it t
 ```js
 {
   "dependencies": {
-    "com.gameframe.sceneswitcher": "https://github.com/coryleach/UnityInfoTables.git#1.0.2",
+    "com.gameframe.infotables": "https://github.com/coryleach/UnityInfoTables.git#1.0.2",
     ...
   },
 }
