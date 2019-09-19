@@ -6,7 +6,10 @@
   </a>
 </p>
 
-> ScriptableObject data tables that can export enums for each entry in the table.
+> This is a library for building and maintaining ScriptableObject data tables</br>
+> Each entry in a table is its own ScriptableObject.</br>
+> Each entry in the table has an ID which can be exported as an enum. </br>
+> The exported enum can then be used as a key to get the entry from the table. </br>
 
 ## Install
 
