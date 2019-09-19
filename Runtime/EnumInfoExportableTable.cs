@@ -108,7 +108,6 @@ namespace Gameframe.InfoTables
     protected override IEnumExportable[] GetExportables()
     {
       //Building the dictionary should also validate we have no dupes
-      //BuildDictionary(true);
       var list = entries.ConvertAll((property) => property as IEnumExportable);
       return list.ToArray();
     }
@@ -117,13 +116,10 @@ namespace Gameframe.InfoTables
 #if UNITY_EDITOR
     protected override void BuildAndWriteExportables(string enumName, IEnumExportable[] exportables, string path)
     {
+      base.BuildAndWriteExportables(enumName,exportables,path);
       if (includeExtensionMethods)
       {
-        EnumExporter.BuildEnumWithExtensionMethods(GetType().ToString(),typeof(T).ToString(),enumName,exportables,path);
-      }
-      else
-      {
-        base.BuildAndWriteExportables(enumName,exportables,path);
+        EnumExporter.BuildExtensionMethods(GetType().ToString(),typeof(T).ToString(),enumName,path);
       }
     }
 

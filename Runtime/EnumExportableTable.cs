@@ -12,9 +12,7 @@ namespace Gameframe.InfoTables
     /// Serves as the base class for a scriptable object that can export an enum type
     /// </summary>
     public abstract class EnumExportableTable : BaseInfoTable
-    {
-        protected virtual string ExportPath => "Assets/Exported/InfoTables/";
-        
+    {        
         protected abstract string ExportedEnumTypeName { get; }
         protected abstract IEnumExportable[] GetExportables();
 
@@ -36,7 +34,8 @@ namespace Gameframe.InfoTables
         }
         
 #if UNITY_EDITOR
-        public void Export()
+        
+        public void Export(bool skipDialog = false)
         {
             if (!ValidateEntries())
             {
@@ -44,19 +43,25 @@ namespace Gameframe.InfoTables
                 return;
             }
             
-            if (!EditorUtility.DisplayDialog("Export Info Table", "Exporting will write source code. It's recommended that you commit all current changes to version control before continuing. Continue?", "Ok", "Cancel"))
+            if (!skipDialog && !EditorUtility.DisplayDialog("Export Info Table", "Exporting will write source code. It's recommended that you commit all current changes to version control before continuing. Continue?", "Ok", "Cancel"))
+            {
+                return;
+            }
+
+            var settings = InfoTableSettings.Get();
+            if (settings == null)
             {
                 return;
             }
             
-            if (!Directory.Exists(ExportPath))
+            if (!Directory.Exists(settings.exportPath))
             {
                 if (!EditorUtility.DisplayDialog("Export Info Table", "Export directory does not exist. Create it?", "Ok", "Cancel"))
                 {
                     return;
                 }
                 //Create export directory
-                Directory.CreateDirectory(ExportPath);
+                Directory.CreateDirectory(settings.exportPath);
             }
             
             var entries = GetExportables();
@@ -67,7 +72,7 @@ namespace Gameframe.InfoTables
             }
             
             //Building the dictionary should also validate we have no dupes
-            BuildAndWriteExportables(ExportedEnumTypeName, entries, ExportPath);
+            BuildAndWriteExportables(ExportedEnumTypeName, entries, settings.exportPath);
         }
 
         protected virtual void BuildAndWriteExportables(string enumName, IEnumExportable[] exportables, string path)
@@ -115,7 +120,7 @@ namespace Gameframe.InfoTables
                 var duplicates = exportables.Where((x) => x.GetEnumExportableName() == valueName);
                 if (duplicates.Count() > 1)
                 {
-                    Debug.LogError("Duplicate Enum Value Names Found");
+                    Debug.LogError($"Duplicate Enum Value Names Found in {name}");
                     foreach (var dupe in duplicates)
                     {
                         Debug.LogError($"{dupe} ({dupe.GetEnumExportableName()}:{dupe.GetEnumExportableValue()})");

@@ -38,27 +38,25 @@ namespace Gameframe.InfoTables
         /// <param name="path">directory where file will be created</param>
         public static void BuildEnum(string enumName, IEnumExportable[] enumEntries, string path)
         {
-            string filename = $"{path}{enumName}.cs";
+            string filename = $"{path}/{enumName}.cs";
             string fileContent = BuildEnumExportString(enumName, enumEntries);
             File.WriteAllText(filename, fileContent);
             AssetDatabase.ImportAsset(filename);
         }
         
         /// <summary>
-        /// Writes out a .cs file containing an enum with the given name and entries at the given path
-        /// filename will be $"{enumName}.cs" and also includes extension methods that adds a Get method
-        /// which takes the enum as a parameter
+        /// Writes out a .cs file containing extension methods for enum and table class types
         /// </summary>
-        /// <param name="enumName">Name of the enum type</param>
-        /// <param name="enumEntries">Array of IEnumExportable that become the enum values</param>
+        /// <param name="tableClassName">Name of hte table class</param>
+        /// <param name="infoClassName">Name of the info class</param>
+        /// <param name="enumName">Name of the enum</param>
         /// <param name="path">Direcotry where the source code file will be written</param>
-        public static void BuildEnumWithExtensionMethods(string tableClassName, string infoClassName, string enumName, IEnumExportable[] enumEntries, string path) 
+        public static void BuildExtensionMethods(string tableClassName, string infoClassName, string enumName, string path) 
         {
-            var filename = $"{path}{enumName}.cs";
-            var enumContent = BuildEnumExportString(enumName, enumEntries);
+            var filename = $"{path}/{tableClassName}Extensions.cs";
             var tableExtensions = BuildTableEnumExtensionString(tableClassName, infoClassName, enumName);
             var infoExtensions = BuildInfoEnumExtensionString(infoClassName, enumName);
-            var fileContent = $"{enumContent}{tableExtensions}{infoExtensions}";
+            var fileContent = $"{tableExtensions}{infoExtensions}";
             
             File.WriteAllText(filename, fileContent);
             AssetDatabase.ImportAsset(filename);
