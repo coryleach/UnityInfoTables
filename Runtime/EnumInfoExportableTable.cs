@@ -115,11 +115,12 @@ namespace Gameframe.InfoTables
     
 #if UNITY_EDITOR
     protected override void BuildAndWriteExportables(string enumName, IEnumExportable[] exportables, string path)
-    {
+    {      
       base.BuildAndWriteExportables(enumName,exportables,path);
+      
       if (includeExtensionMethods)
       {
-        EnumExporter.BuildExtensionMethods(GetType().ToString(),typeof(T).ToString(),enumName,path);
+        EnumExporter.BuildExtensionMethods(GetType().Namespace, GetType().Name,typeof(T).ToString(),enumName,path);
       }
     }
 

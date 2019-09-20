@@ -77,7 +77,8 @@ namespace Gameframe.InfoTables
 
         protected virtual void BuildAndWriteExportables(string enumName, IEnumExportable[] exportables, string path)
         {
-            EnumExporter.BuildEnum(enumName,exportables,path);
+            var tableNamespace = GetType().Namespace;
+            EnumExporter.BuildEnum(tableNamespace,enumName,exportables,path);
         }
         
         public override bool ValidateEntries()

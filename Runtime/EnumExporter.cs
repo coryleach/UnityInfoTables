@@ -33,30 +33,37 @@ namespace Gameframe.InfoTables
         /// Writes out a .cs file containing an enum with the given name and entries at the given path
         /// filename will be $"{enumName}.cs"
         /// </summary>
+        /// <param name="enumNamespace">Namespace of the enum. If null or empty namespace will be global.</param>
         /// <param name="enumName">Name of the enum type</param>
         /// <param name="enumEntries">Array of IEnumExportable that become the enum values</param>
         /// <param name="path">directory where file will be created</param>
-        public static void BuildEnum(string enumName, IEnumExportable[] enumEntries, string path)
+        public static void BuildEnum(string enumNamespace, string enumName, IEnumExportable[] enumEntries, string path)
         {
             string filename = $"{path}/{enumName}.cs";
-            string fileContent = BuildEnumExportString(enumName, enumEntries);
+            string fileContent = BuildEnumExportString(enumNamespace, enumName, enumEntries);
             File.WriteAllText(filename, fileContent);
             AssetDatabase.ImportAsset(filename);
         }
-        
+
         /// <summary>
         /// Writes out a .cs file containing extension methods for enum and table class types
         /// </summary>
+        /// <param name="extensionNamespace">Namespace of extension classes and methods. If null or empty will be global.</param>
         /// <param name="tableClassName">Name of hte table class</param>
         /// <param name="infoClassName">Name of the info class</param>
         /// <param name="enumName">Name of the enum</param>
         /// <param name="path">Direcotry where the source code file will be written</param>
-        public static void BuildExtensionMethods(string tableClassName, string infoClassName, string enumName, string path) 
+        public static void BuildExtensionMethods(string extensionNamespace, string tableClassName, string infoClassName, string enumName, string path) 
         {
             var filename = $"{path}/{tableClassName}Extensions.cs";
             var tableExtensions = BuildTableEnumExtensionString(tableClassName, infoClassName, enumName);
             var infoExtensions = BuildInfoEnumExtensionString(infoClassName, enumName);
             var fileContent = $"{tableExtensions}{infoExtensions}";
+
+            if (!string.IsNullOrEmpty(extensionNamespace))
+            {
+                fileContent = $"namespace {extensionNamespace}\n{{\n {fileContent} \n}}\n";
+            }
             
             File.WriteAllText(filename, fileContent);
             AssetDatabase.ImportAsset(filename);
@@ -107,15 +114,27 @@ namespace Gameframe.InfoTables
         /// <param name="enumName">Name of the enum type</param>
         /// <param name="enumEntries">Array of named values for the enum</param>
         /// <returns>source code for the enum type</returns>
-        static string BuildEnumExportString(string enumName, IEnumExportable[] enumEntries)
+        static string BuildEnumExportString(string enumNamespace, string enumName, IEnumExportable[] enumEntries)
         {
             var output = new StringBuilder();
+
+            if (!string.IsNullOrEmpty(enumNamespace))
+            {
+                output.AppendFormat("namespace {0}\n{{\n",enumNamespace);
+            }
+            
             output.AppendFormat("public enum {0} : int \n{{\n", enumName);
             foreach (var enumEntry in enumEntries)
             {
                 output.AppendFormat("  {0}={1},\n", enumEntry.GetEnumExportableName(), enumEntry.GetEnumExportableValue());
             }
             output.AppendLine("}");
+            
+            if (!string.IsNullOrEmpty(enumNamespace))
+            {
+                output.AppendLine("}");
+            }
+            
             return output.ToString();
         }
     }
