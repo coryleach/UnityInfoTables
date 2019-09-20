@@ -120,7 +120,7 @@ namespace Gameframe.InfoTables
       
       if (includeExtensionMethods)
       {
-        EnumExporter.BuildExtensionMethods(GetType().Namespace, GetType().Name,typeof(T).ToString(),enumName,path);
+        EnumExporter.BuildExtensionMethods(GetType(),typeof(T),enumName,path);
       }
     }
 

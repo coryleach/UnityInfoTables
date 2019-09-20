@@ -1,6 +1,7 @@
 ﻿using UnityEditor;
 using System.IO;
 using System.Text;
+using UnityEngine.UI;
 
 namespace Gameframe.InfoTables
 {
@@ -53,17 +54,12 @@ namespace Gameframe.InfoTables
         /// <param name="infoClassName">Name of the info class</param>
         /// <param name="enumName">Name of the enum</param>
         /// <param name="path">Direcotry where the source code file will be written</param>
-        public static void BuildExtensionMethods(string extensionNamespace, string tableClassName, string infoClassName, string enumName, string path) 
+        public static void BuildExtensionMethods(System.Type tableType, System.Type infoType, string enumName, string path) 
         {
-            var filename = $"{path}/{tableClassName}Extensions.cs";
-            var tableExtensions = BuildTableEnumExtensionString(tableClassName, infoClassName, enumName);
-            var infoExtensions = BuildInfoEnumExtensionString(infoClassName, enumName);
+            var filename = $"{path}/{tableType.Name}Extensions.cs";
+            var tableExtensions = BuildTableEnumExtensionString(tableType, infoType, enumName);
+            var infoExtensions = BuildInfoEnumExtensionString(infoType, tableType.Namespace, enumName);
             var fileContent = $"{tableExtensions}{infoExtensions}";
-
-            if (!string.IsNullOrEmpty(extensionNamespace))
-            {
-                fileContent = $"namespace {extensionNamespace}\n{{\n {fileContent} \n}}\n";
-            }
             
             File.WriteAllText(filename, fileContent);
             AssetDatabase.ImportAsset(filename);
@@ -76,16 +72,28 @@ namespace Gameframe.InfoTables
         /// <param name="infoClassName">Name of the info class</param>
         /// <param name="enumName">Name of the enum</param>
         /// <returns>Source code for a static class that includes extension methods</returns>
-        private static string BuildTableEnumExtensionString(string tableClassName, string infoClassName, string enumName)
+        private static string BuildTableEnumExtensionString(System.Type tableType, System.Type infoType, string enumName)
         {
             var output = new StringBuilder();
+
+            if (!string.IsNullOrEmpty(tableType.Namespace))
+            {
+                output.AppendFormat("namespace {0}\n{{\n",tableType.Namespace);
+            }
+            
             output.AppendLine("");
-            output.AppendLine($"public static class {tableClassName}Extensions \n{{");
-            output.AppendLine($"  public static {infoClassName} Get(this {tableClassName} table, {enumName} enumValue)");
+            output.AppendLine($"public static class {tableType.Name}Extensions \n{{");
+            output.AppendLine($"  public static {infoType.FullName} Get(this {tableType.Name} table, {enumName} enumValue)");
             output.AppendLine("  {");
             output.AppendLine("    return table.Get((int) enumValue);");
             output.AppendLine("  }");
             output.AppendLine("}");
+            
+            if (!string.IsNullOrEmpty(tableType.Namespace))
+            {
+                output.AppendLine("}");
+            }
+            
             return output.ToString();
         }
         
@@ -95,16 +103,35 @@ namespace Gameframe.InfoTables
         /// <param name="infoClassName">Name of the info class</param>
         /// <param name="enumName">Name of the enum</param>
         /// <returns>Source code for a static class that includes extension methods</returns>
-        private static string BuildInfoEnumExtensionString(string infoClassName, string enumName)
+        private static string BuildInfoEnumExtensionString(System.Type infoType, string enumNamespace, string enumName)
         {
             var output = new StringBuilder();
+            
+            if (!string.IsNullOrEmpty(infoType.Namespace))
+            {
+                output.AppendFormat("namespace {0}\n{{\n",infoType.Namespace);
+            }
+
+            var fullEnumName = enumName;
+
+            if (!string.IsNullOrEmpty(enumNamespace))
+            {
+                fullEnumName = $"{enumNamespace}.{enumName}";
+            }
+            
             output.AppendLine("");
-            output.AppendLine($"public static class {infoClassName}Extensions \n{{");
-            output.AppendLine($"  public static {enumName} GetEnumValue(this {infoClassName} info)");
+            output.AppendLine($"public static class {infoType.Name}Extensions \n{{");
+            output.AppendLine($"  public static {fullEnumName} GetEnumValue(this {infoType.Name} info)");
             output.AppendLine("  {");
-            output.AppendLine($"    return ({enumName})info.Id.Value;");
+            output.AppendLine($"    return ({fullEnumName})info.Id.Value;");
             output.AppendLine("  }");
             output.AppendLine("}");
+            
+            if (!string.IsNullOrEmpty(infoType.Namespace))
+            {
+                output.AppendLine("}");
+            }
+            
             return output.ToString();
         }
 
