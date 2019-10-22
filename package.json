@@ -1,14 +1,11 @@
 {
-    "name": "com.gameframe.infotables",
-    "displayName": "Gameframe.InfoTables",
-    "version": "1.0.8",
-    "description": "",
-    "unity": "2018.2",
-    "unityRelease": "13f1",
-    "keywords": [],
-    "author": {
-        "name": "Cory Leach",
-        "email": "cory.leach@gmail.com",
-        "url": "https://github.com/coryleach/UnityInfoTables"
-    }
+  "name": "com.gameframe.infotables",
+  "displayName": "Gameframe.InfoTables",
+  "version": "1.0.9",
+  "keywords": [],
+  "author": {
+    "name": "Cory Leach",
+    "email": "cory.leach@gmail.com",
+    "url": "https://github.com/coryleach/UnityInfoTables"
+  }
 }

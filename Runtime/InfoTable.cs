@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -29,7 +30,7 @@ namespace Gameframe.InfoTables
   /// <summary>
   /// Table of InfoScriptableObjects each with a unique InfoId
   /// </summary>
-  public class InfoTable : BaseInfoTable
+  public class InfoTable : BaseInfoTable, IEnumerable<InfoScriptableObject>
   {
     [SerializeField]
     private List<InfoScriptableObject> entries = new List<InfoScriptableObject>();
@@ -113,11 +114,21 @@ namespace Gameframe.InfoTables
     {
       return TryGet(infoId.Value, out val);
     }
+
+    public IEnumerator<InfoScriptableObject> GetEnumerator()
+    {
+      return entries.GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+      return GetEnumerator();
+    }
     
   }
   
   /// <inheritdoc cref="InfoTable"/>
-  public class InfoTable<T> : BaseInfoTable where T : InfoScriptableObject
+  public class InfoTable<T> : BaseInfoTable, IEnumerable<T> where T : InfoScriptableObject
   {
     [FormerlySerializedAs("properties")]
     [SerializeField]
@@ -262,6 +273,16 @@ namespace Gameframe.InfoTables
             return true;
     }
 #endif
+
+    public IEnumerator<T> GetEnumerator()
+    {
+      return entries.GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+      return GetEnumerator();
+    }
     
   }
   
