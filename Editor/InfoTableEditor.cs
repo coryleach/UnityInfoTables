@@ -13,12 +13,12 @@ namespace Gameframe.InfoTables.Editor
         {
             base.OnInspectorGUI();
             EditorGUILayout.BeginHorizontal();
-            
+
             if (GUILayout.Button("Gather"))
             {
                 ((BaseInfoTable)target).GatherEntries();
             }
-            
+
             if (GUILayout.Button("Validate"))
             {
                 if (((BaseInfoTable) target).ValidateEntries())
@@ -26,9 +26,14 @@ namespace Gameframe.InfoTables.Editor
                     Debug.Log("OK!");
                 }
             }
-            
+
+            if (GUILayout.Button("Save"))
+            {
+                EditorUtility.SetDirty(target);
+                AssetDatabase.SaveAssets();
+            }
+
             EditorGUILayout.EndHorizontal();
         }
     }
 }
-

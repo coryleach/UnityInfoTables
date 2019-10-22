@@ -14,12 +14,12 @@ namespace Gameframe.InfoTables.Editor
             base.OnInspectorGUI();
 
             EditorGUILayout.BeginHorizontal();
-            
+
             if (GUILayout.Button("Gather"))
             {
                 ((EnumExportableTable)target).GatherEntries();
             }
-            
+
             if (GUILayout.Button("Validate"))
             {
                 if (((EnumExportableTable) target).ValidateEntries())
@@ -27,16 +27,21 @@ namespace Gameframe.InfoTables.Editor
                     Debug.Log("OK!");
                 }
             }
-            
+
             if ( GUILayout.Button("Export") )
             {
                 ((EnumExportableTable)target).Export();
                 return;
             }
-            
+
+            if (GUILayout.Button("Save"))
+            {
+                EditorUtility.SetDirty(target);
+                AssetDatabase.SaveAssets();
+            }
+
             EditorGUILayout.EndHorizontal();
-            
+
         }
     }
 }
-
