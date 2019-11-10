@@ -10,6 +10,9 @@
 > Each entry in a table is its own ScriptableObject.</br>
 > Each entry in the table has an ID which can be exported as an enum. </br>
 > The exported enum can then be used as a key to get the entry from the table. </br>
+> </br>
+> InfoTableProvider can be used to provide a reference to all the info tables in the project </br>
+> InfoTableProvider has a serialized reference to all InfoTables so all info tables in the provider will be loaded </br>
 
 ## Install
 
