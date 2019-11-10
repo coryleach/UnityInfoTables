@@ -8,14 +8,27 @@ namespace Gameframe.InfoTables
     [CreateAssetMenu(menuName = "Gameframe/InfoTableProvider")]
     public class InfoTableProvider : ScriptableObject
     {
+        private static InfoTableProvider _current = null;
+
+        public static InfoTableProvider Current
+        {
+            get => _current;
+            set => _current = value;
+        }
+        
         [SerializeField]
         private List<BaseInfoTable> tables = new List<BaseInfoTable>();
 
         [NonSerialized]
-        private Dictionary<Type, List<BaseInfoTable>> _tableDictionary = new Dictionary<Type, List<BaseInfoTable>>();
+        private readonly Dictionary<Type, List<BaseInfoTable>> _tableDictionary = new Dictionary<Type, List<BaseInfoTable>>();
         
         private void OnEnable()
         {
+            if (_current == null)
+            {
+                _current = this;
+            }
+            
             for (int i = 0; i < tables.Count; i++)
             {
                 var table = tables[i];
