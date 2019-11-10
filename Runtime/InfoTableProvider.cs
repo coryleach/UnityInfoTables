@@ -10,6 +10,9 @@ namespace Gameframe.InfoTables
     {
         private static InfoTableProvider _current = null;
 
+        /// <summary>
+        /// InfoTableProvider will assign itself to Current in OnEnable after it has been loaded unless you set it manually
+        /// </summary>
         public static InfoTableProvider Current
         {
             get => _current;
