@@ -192,7 +192,7 @@ namespace Gameframe.InfoTables
       }
       catch (KeyNotFoundException e)
       {
-        throw new Exception($"EnumExportableInfoTable<{typeof(T)}> {name} does not contain key {id}");
+        throw new Exception($"EnumExportableInfoTable<{typeof(T)}> {name} does not contain key {id}. {e}");
       }
     }
     

@@ -8,7 +8,7 @@ namespace Gameframe.InfoTables
   public class EnumInfoScriptableObject : InfoScriptableObject, IEnumExportable
   {
     [SerializeField,Tooltip("This string will be used as the value name when exported to enum")] 
-    private string exportName;
+    private string exportName = string.Empty;
 
     /// <summary>
     /// The name of this object when exported to an enum type
