@@ -4,7 +4,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-namespace Tests
+namespace Gameframe.InfoTables.Tests.Runtime
 {
     public class InfoTablesRuntimeTests
     {
