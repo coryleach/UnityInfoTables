@@ -14,7 +14,7 @@
 > The InfoTableProvider class can be used to globally provide a reference to all the info tables in the project </br>
 > InfoTableProvider has a serialized reference to all InfoTables so all info tables in the provider will be loaded </br>
 
-## Install
+## Quick Package Install
 
 #### Using UnityPackageManager (for Unity 2018.3 or later)
 
