@@ -12,6 +12,7 @@ namespace Gameframe.InfoTables.Editor
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
+            serializedObject.Update();
             EditorGUILayout.BeginHorizontal();
 
             if (GUILayout.Button("Gather"))
@@ -34,6 +35,7 @@ namespace Gameframe.InfoTables.Editor
             }
 
             EditorGUILayout.EndHorizontal();
+            serializedObject.ApplyModifiedProperties();
         }
     }
 }
