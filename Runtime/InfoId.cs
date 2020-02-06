@@ -65,13 +65,13 @@ namespace Gameframe.InfoTables
     /// <inheritdoc/>
     public void OnBeforeSerialize()
     {
-      id = string.IsNullOrEmpty(key) ? 0 : GetStableHashCode(key);
+      id = string.IsNullOrEmpty(key) ? 0 : GetId(key);
     }
 
     /// <inheritdoc/>
     public void OnAfterDeserialize()
     {
-      id = string.IsNullOrEmpty(key) ? 0 : GetStableHashCode(key);
+      id = string.IsNullOrEmpty(key) ? 0 : GetId(key);
     }
 
     #endregion
@@ -105,7 +105,7 @@ namespace Gameframe.InfoTables
     /// </summary>
     /// <param name="str">String to hash</param>
     /// <returns>integer hash of the string parameter</returns>
-    private static int GetStableHashCode(string str)
+    public static int GetId(string str)
     {
       unchecked
       {
