@@ -13,6 +13,7 @@ namespace Gameframe.InfoTables.Editor
         {
             base.OnInspectorGUI();
 
+            serializedObject.Update();
             EditorGUILayout.BeginHorizontal();
 
             if (GUILayout.Button("Gather"))
@@ -41,7 +42,7 @@ namespace Gameframe.InfoTables.Editor
             }
 
             EditorGUILayout.EndHorizontal();
-
+            serializedObject.ApplyModifiedProperties();
         }
     }
 }
