@@ -13,7 +13,11 @@ namespace Gameframe.InfoTables
     /// <summary>
     /// The name of this object when exported to an enum type
     /// </summary>
-    public string ExportName => exportName;
+    public string ExportName
+    {
+      get => exportName;
+      protected set => exportName = value;
+    }
     
     #region IEnumExportable
     ///<inheritdoc />
