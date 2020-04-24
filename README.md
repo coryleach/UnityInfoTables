@@ -16,6 +16,11 @@
 
 ## Quick Package Install
 
+#### Using UnityPackageManager (for Unity 2019.3 or later)
+Open the package manager window (menu: Window > Package Manager)<br/>
+Select "Add package from git URL...", fill in the pop-up with the following link:<br/>
+https://github.com/coryleach/UnityInfoTables.git#1.0.12<br/>
+
 #### Using UnityPackageManager (for Unity 2018.3 or later)
 
 Find the manifest.json file in the Packages folder of your project and edit it to look like this:
