@@ -114,7 +114,7 @@ namespace Gameframe.InfoTables
     {
       return TryGet(infoId.Value, out val);
     }
-
+    
     public IEnumerator<InfoScriptableObject> GetEnumerator()
     {
       return entries.GetEnumerator();
@@ -123,6 +123,16 @@ namespace Gameframe.InfoTables
     IEnumerator IEnumerable.GetEnumerator()
     {
       return GetEnumerator();
+    }
+    
+    protected void SortEntries(IComparer<InfoScriptableObject> comparer)
+    {
+      entries.Sort(comparer);
+    }
+    
+    protected void SortEntries(Comparison<InfoScriptableObject> comparison)
+    {
+      entries.Sort(comparison);
     }
     
   }
@@ -212,6 +222,16 @@ namespace Gameframe.InfoTables
     public bool TryGet(InfoId infoId, out T val)
     {
       return TryGet(infoId.Value, out val);
+    }
+
+    protected void SortEntries(IComparer<T> comparer)
+    {
+      entries.Sort(comparer);
+    }
+    
+    protected void SortEntries(Comparison<T> comparison)
+    {
+      entries.Sort(comparison);
     }
 
 #if UNITY_EDITOR
