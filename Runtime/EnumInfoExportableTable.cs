@@ -133,13 +133,24 @@ namespace Gameframe.InfoTables
       var guids = AssetDatabase.FindAssets($"t:{typeof(T)}");
       foreach (var guid in guids)
       {
-        string assetPath = AssetDatabase.GUIDToAssetPath( guid );
-        T asset = AssetDatabase.LoadAssetAtPath<T>( assetPath );
-        if( asset != null && !entries.Contains(asset) )
+        var assetPath = AssetDatabase.GUIDToAssetPath( guid );
+        var asset = AssetDatabase.LoadAssetAtPath<T>( assetPath );
+        if( asset != null && ShouldAddToEntries(asset) && !entries.Contains(asset) )
         {
           entries.Add(asset);
         }
       }
+    }
+
+    /// <summary>
+    /// Editor-only
+    /// This method filters which assets should be added to an info table as part of the gather entries command
+    /// </summary>
+    /// <param name="asset">Asset to be added</param>
+    /// <returns>True if asset should be added. False otherwise.</returns>
+    protected virtual bool ShouldAddToEntries(T asset)
+    {
+      return true;
     }
 #endif
     

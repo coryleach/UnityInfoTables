@@ -292,6 +292,18 @@ namespace Gameframe.InfoTables
             
             return true;
     }
+
+    /// <summary>
+    /// Editor only.
+    /// This method filters which assets should be added to an info table as part of the gather entries command
+    /// </summary>
+    /// <param name="asset">Asset to be added</param>
+    /// <returns>True if asset should be added. False otherwise.</returns>
+    protected virtual bool ShouldAddToEntries(T asset)
+    {
+      return true;
+    }
+    
 #endif
 
     public IEnumerator<T> GetEnumerator()
